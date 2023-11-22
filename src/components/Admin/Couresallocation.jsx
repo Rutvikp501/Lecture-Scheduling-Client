@@ -7,7 +7,7 @@ import axios from 'axios'
 import { useRef } from 'react'
 const REACT_APP_BACKENDAPI=process.env.REACT_APP_BACKENDAPI;
 
-function Couresallocationbutton() {
+const Couresallocationbutton = () => {
 const { isOpen: isaddOpen , onOpen: onaddOpen, onClose: onaddClose } = useDisclosure()
 const { isOpen: isupdateOpen , onOpen: onupdateOpen, onClose: onupdateClose } = useDisclosure()
 

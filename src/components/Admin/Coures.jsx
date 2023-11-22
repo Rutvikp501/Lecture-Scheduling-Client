@@ -6,7 +6,7 @@ import axios from 'axios'
 import { useEffect } from 'react'
 import Navbar from '../navbar/Navbar'
 import AddCouresbutton from '../AddCoures'
-import Couresallocationbutton from "../Admin/Couresallocation"
+import Couresallocationbutton from './couresallocation'
 const REACT_APP_BACKENDAPI=process.env.REACT_APP_BACKENDAPI;
 
 const CreateAppoinment = () => {
@@ -44,7 +44,7 @@ useEffect(()=>{
           {
             item?.CoverImg && <Image src={item.CoverImg.url} />
           }
-          {<Couresallocationbutton />}  
+          <Couresallocationbutton />
         </Flex>
         ))
       }
