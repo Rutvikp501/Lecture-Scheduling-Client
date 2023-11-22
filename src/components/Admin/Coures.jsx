@@ -6,7 +6,7 @@ import axios from 'axios'
 import { useEffect } from 'react'
 import Navbar from '../navbar/Navbar'
 import AddCouresbutton from '../AddCoures'
-// import Couresallocationbutton from './couresallocation'
+import Couresallocationbutton from './couresallocation'
 const REACT_APP_BACKENDAPI=process.env.REACT_APP_BACKENDAPI;
 
 const CreateAppoinment = () => {
@@ -18,7 +18,7 @@ const CreateAppoinment = () => {
   const getData = async() =>{
     try {
         let result = await axios.get(`${ REACT_APP_BACKENDAPI}course/`,params)
-        console.log(result);
+        console.log(result.data);
         setdata(result.data)
     } catch (error) {
         console.log(error);
@@ -34,17 +34,24 @@ useEffect(()=>{
      {<Navbar />}
     <VStack w={{base:'80%',md:'50%'}} m='auto' mt='7' spacing={'5'}>
       {<AddCouresbutton />}  
-      
       {
         data.length == 0?<h1>No Coures to show</h1>:data.map((item)=>(
-          <Flex key={item._id} w='100%' border='1px' borderColor='gray.200' flexDirection={'column'} spacing={'1'} alignItems="left" p={'5'}>
-          <Text>Name:{item.Name}</Text>
-          <Text>Level:{item.Level}</Text>
-          <Text>Lectures:{item.Lectures}</Text>
+          <Flex key={item?._id} w='100%' border='1px' borderColor='gray.200' flexDirection={'column'} spacing={'1'} alignItems="left" p={'5'}>
+          <Text>Name:{item?.Name}</Text>
+          <Text>Level:{item?.Level}</Text>
           {
-            item?.CoverImg && <Image src={item.CoverImg.url} />
+            item?.Lectures?.length> 0 && item?.Lectures?.map((lecture)=>(
+              <Flex gap={'2rem'}>
+                <Text>{lecture.Date}</Text>
+                <Text>{lecture.Instructor}</Text>
+              </Flex>
+            ))
           }
-          {/* <Couresallocationbutton /> */}
+          {
+            item?.CoverImg && <Image w="100px" src={item?.CoverImg?.url} />
+          }
+          
+      <Couresallocationbutton courseData={item} />
         </Flex>
         ))
       }

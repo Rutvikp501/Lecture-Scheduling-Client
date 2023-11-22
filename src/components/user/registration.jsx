@@ -50,7 +50,7 @@ export default function Register() {
       }
     }
     try {
-      await axios.post('http://localhost:8001/user/register', data, config)
+      await axios.post(`${ REACT_APP_BACKENDAPI}user/register`, data, config)
       .then((res)=>{
         //console.log(res);
         var resp = res.data
