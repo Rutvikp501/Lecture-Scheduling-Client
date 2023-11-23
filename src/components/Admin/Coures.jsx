@@ -6,10 +6,10 @@ import axios from 'axios'
 import { useEffect } from 'react'
 import Navbar from '../navbar/Navbar'
 import AddCouresbutton from '../AddCoures'
-import Couresallocationbutton from './couresallocation'
+import Couresallocationbutton from './Couresallocation'
 const REACT_APP_BACKENDAPI=process.env.REACT_APP_BACKENDAPI;
 
-const CreateAppoinment = () => {
+const CreateCoures = () => {
   let localStorageData =JSON.parse( localStorage.getItem( 'tok' ) );
   let Email = localStorageData.Email 
 
@@ -37,12 +37,14 @@ useEffect(()=>{
       {
         data.length == 0?<h1>No Coures to show</h1>:data.map((item)=>(
           <Flex key={item?._id} w='100%' border='1px' borderColor='gray.200' flexDirection={'column'} spacing={'1'} alignItems="left" p={'5'}>
-          <Text>Name:{item?.Name}</Text>
-          <Text>Level:{item?.Level}</Text>
+          <Text gap={'2rem'}>Name:&nbsp;&nbsp;{item?.Name}</Text>
+          <Text gap={'2rem'}>Level:&nbsp;&nbsp;{item?.Level}</Text>
           {
             item?.Lectures?.length> 0 && item?.Lectures?.map((lecture)=>(
               <Flex gap={'2rem'}>
+                 <Text>Date:</Text>
                 <Text>{lecture.Date}</Text>
+                <Text>Instructor:</Text>
                 <Text>{lecture.Instructor}</Text>
               </Flex>
             ))
@@ -51,7 +53,7 @@ useEffect(()=>{
             item?.CoverImg && <Image w="100px" src={item?.CoverImg?.url} />
           }
           
-      <Couresallocationbutton courseData={item} />
+      <Couresallocationbutton courseData={item}  />
         </Flex>
         ))
       }
@@ -61,4 +63,4 @@ useEffect(()=>{
   )
 }
 
-export default CreateAppoinment
+export default CreateCoures

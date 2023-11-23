@@ -14,8 +14,8 @@ const Getlecture = () => {
   const params = { Email: Email}
   const getData = async() =>{
     try {
-        let result = await axios.get(`${ REACT_APP_BACKENDAPI}course/instructor`,params)
-        console.log(result);
+        let result = await axios.post(`${ REACT_APP_BACKENDAPI}course/instructorLecture`,params)
+        //console.log(result.data);
         setdata(result.data)
     } catch (error) {
         console.log(error);
@@ -31,13 +31,12 @@ useEffect(()=>{
      {<Navbar />}
     <VStack w={{base:'80%',md:'50%'}} m='auto' mt='7' spacing={'5'}>
       {
-        data.length == 0?<h1>No Instructor to show</h1>:data.map((item)=>(
-          <Flex key={item._id} w='100%' border='1px' borderColor='gray.200' flexDirection={'column'} spacing={'1'} alignItems="left" p={'5'}>
-          <Text>Name:{item.Name}</Text>
-          <Text>Email:{item.Email}</Text>
-          {/* {
-            item?.CoverImg && <Image src={item.CoverImg.url} />
-          } */}
+        data.length == 0?<h1>No Lecture's to show</h1>:data.map((item)=>(
+          <Flex key={item._id} w='50%' border='1px' borderColor='gray.200' flexDirection={'column'} spacing={'1'} alignItems="left" p={'5'}>
+            <Flex gap={'2rem'}>
+          <Text>Date:&nbsp;&nbsp;{item.lectureDate}</Text>
+          <Text>Coures:&nbsp;&nbsp;{item.courseName}</Text>
+          </Flex>
         </Flex>
         ))
       }

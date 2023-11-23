@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 import Navbar from '../navbar/Navbar'
 const REACT_APP_BACKENDAPI=process.env.REACT_APP_BACKENDAPI;
 
-const CreateAppoinment = () => {
+const InstructorList = () => {
   let localStorageData =JSON.parse( localStorage.getItem( 'tok' ) );
   let Email = localStorageData.Email 
   const [data, setdata] = useState([])
@@ -33,8 +33,8 @@ useEffect(()=>{
       {
         data.length == 0?<h1>No Instructor to show</h1>:data.map((item)=>(
           <Flex key={item._id} w='100%' border='1px' borderColor='gray.200' flexDirection={'column'} spacing={'1'} alignItems="left" p={'5'}>
-          <Text>Name:{item.Name}</Text>
-          <Text>Email:{item.Email}</Text>
+          <Text>Name:&nbsp;&nbsp;{item.Name}</Text>
+          <Text>Email:&nbsp;&nbsp;{item.Email}</Text>
           {/* {
             item?.CoverImg && <Image src={item.CoverImg.url} />
           } */}
@@ -47,4 +47,4 @@ useEffect(()=>{
   )
 }
 
-export default CreateAppoinment
+export default InstructorList
