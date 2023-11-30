@@ -1,64 +1,94 @@
 import React from 'react'
-import { Flex,Modal,ModalCloseButton,ModalOverlay,ModalContent,ModalHeader,ModalBody,ModalFooter,Button, Input,  VStack,useToast, useDisclosure, Heading, HStack, Image } from '@chakra-ui/react'
-import { Text,Box } from '@chakra-ui/react'
+import { Avatar, VStack, Heading, Card, Stack, CardBody, CardFooter, Image,Flex } from '@chakra-ui/react'
+import { Text, } from '@chakra-ui/react'
 import { useState } from 'react'
 import axios from 'axios'
 import { useEffect } from 'react'
 import Navbar from '../navbar/Navbar'
 import AddCouresbutton from '../AddCoures'
 import Couresallocationbutton from './Couresallocation'
-const REACT_APP_BACKENDAPI=process.env.REACT_APP_BACKENDAPI;
+const REACT_APP_BACKENDAPI = process.env.REACT_APP_BACKENDAPI;
 
 const CreateCoures = () => {
-  let localStorageData =JSON.parse( localStorage.getItem( 'tok' ) );
-  let Email = localStorageData.Email 
-
+  let localStorageData = JSON.parse(localStorage.getItem('tok'));
+  let Email = localStorageData.Email
+ 
   const [data, setdata] = useState([])
-  const params = { Email: Email}
-  const getData = async() =>{
+  const [date, setdate] = useState([])
+  const params = { Email: Email }
+  const getData = async () => {
     try {
-        let result = await axios.get(`${ REACT_APP_BACKENDAPI}course/`,params)
-        console.log(result.data);
-        setdata(result.data)
+      let result = await axios.get(`${REACT_APP_BACKENDAPI}course/`, params)
+      console.log(result.data);
+      setdata(result.data.AllCourse)
+      setdate(result.data.todaydate)
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
   }
- 
-  
-useEffect(()=>{
+
+
+  useEffect(() => {
     getData()
-},[])
+  }, [])
   return (
     <>
-     {<Navbar />}
-    <VStack w={{base:'80%',md:'50%'}} m='auto' mt='7' spacing={'5'}>
-      {<AddCouresbutton />}  
-      {
-        data.length == 0?<h1>No Coures to show</h1>:data.map((item)=>(
-          <Flex key={item?._id} w='100%' border='1px' borderColor='gray.200' flexDirection={'column'} spacing={'1'} alignItems="left" p={'5'}>
-          <Text gap={'2rem'}>Name:&nbsp;&nbsp;{item?.Name}</Text>
-          <Text gap={'2rem'}>Level:&nbsp;&nbsp;{item?.Level}</Text>
-          {
-            item?.Lectures?.length> 0 && item?.Lectures?.map((lecture)=>(
-              <Flex gap={'2rem'}>
-                 <Text>Date:</Text>
-                <Text>{lecture.Date}</Text>
-                <Text>Instructor:</Text>
-                <Text>{lecture.Instructor}</Text>
-              </Flex>
-            ))
-          }
-          {
-            item?.CoverImg && <Image w="100px" src={item?.CoverImg?.url} />
-          }
-          
-      <Couresallocationbutton courseData={item}  />
-        </Flex>
-        ))
-      }
-      
-    </VStack>
+      {<Navbar />}
+        {<AddCouresbutton />}
+        {
+  data.length === 0 ? (
+    <h1>No Courses to show</h1>
+  ) : (
+    <Flex wrap="wrap" justifyContent="center" > 
+      {data.map((item) => (
+        <Card direction={{ base: "column", sm: "row" }} variant="outline" key={item.id}  boxShadow={'2xl'} rounded={'lg'}   p={6}  margin={4} textAlign={'center'}>
+          {item?.CoverImg && (
+            <Image
+              objectFit="cover"
+              maxW={{ base: "100%", sm: "200px" }}
+              src={item?.CoverImg?.url}
+              alt="Course Image"
+            />
+          )}
+
+          <Stack>
+            <CardBody maxW={"800px"}>
+              <Heading size="md">{item?.Name}&nbsp;&nbsp;{item?.Level}</Heading>
+
+              {item?.Lectures?.length > 0 && (
+                <VStack spacing={4}>
+                  {item?.Lectures?.map((lecture) => (
+                    <Stack
+                      mt={6}
+                      direction="row"
+                      spacing={4}
+                      align="center"
+                      key={lecture.id}
+                    >
+                      <Avatar src="https://avatars0.githubusercontent.com/u/1164541?v=4" />
+
+                      <Stack direction="column" spacing={0} fontSize="sm">
+                        <Text fontWeight={600}>
+                          {lecture.Instructor} : {lecture.Date}
+                        </Text>
+                      </Stack>
+                    </Stack>
+                  ))}
+                </VStack>
+              )}
+            </CardBody>
+
+            <CardFooter>
+              <Couresallocationbutton w="100px" courseData={item} />
+            </CardFooter>
+          </Stack>
+        </Card>
+      ))}
+    </Flex>
+  )}
+
+
+
     </>
   )
 }

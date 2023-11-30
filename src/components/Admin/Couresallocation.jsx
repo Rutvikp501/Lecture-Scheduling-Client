@@ -93,7 +93,7 @@ const handleSubmitModel = () =>{
               <Modal initialFocusRef={initialRef}isOpen={isaddOpen}onClose={onaddClose}>
         <ModalOverlay />
         <ModalContent w={{base:'90%',md:'100%'}}>
-          <ModalHeader>Allocatr course to Instuctor</ModalHeader>
+          <ModalHeader>Allocate course to Instuctor</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6} display='flex' flexDirection={'column'} gap={'2'}>
       <input style={{cursor:'pointer',padding:'0.5rem',background:'none',border:'1px solid rgba(255,255,255,0.2)',borderRadius:'8px'}} type='date' onChange={(e)=>setselectDate(e.target.value)} />
